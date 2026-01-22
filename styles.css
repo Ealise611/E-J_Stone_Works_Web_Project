@@ -92,9 +92,15 @@ body {
 }
 
 .logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 64px;
+  width: auto;
+  display: block;
 }
 
 .logo-mark {
