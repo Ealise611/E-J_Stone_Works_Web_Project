@@ -378,6 +378,50 @@ body {
   color: var(--text-muted);
 }
 
+/* Gallery */
+
+.gallery {
+  padding: 80px 20px;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.gallery h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.gallery-subtext {
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.instagram-cta {
+  margin-top: 40px;
+}
+
+.btn-instagram {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.btn-instagram:hover {
+  background: #333;
+}
+
+
 /* Process */
 
 .process-grid {
