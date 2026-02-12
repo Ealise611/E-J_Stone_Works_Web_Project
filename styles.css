@@ -439,22 +439,25 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
-/* ✅ Mobile fix for Android overlap: disable scaling + single column */
-@media (max-width: 650px) {
+/* ===== Fix Instagram overlap on mobile ===== */
+@media (max-width: 768px) {
+
   .instagram-grid {
-    grid-template-columns: 1fr !important;
-    gap: 18px;
+    display: block;     /* 不用 grid */
   }
 
   .ig-item {
-    padding: 0;              /* 手機不用 padding，避免寬度爆掉 */
+    margin-bottom: 20px;
+    padding: 0;
   }
 
   .ig-item .instagram-media {
-    transform: none !important;     /* ✅ 關掉 scale，避免 Android 重疊 */
+    transform: none !important;   /* 關閉縮放 */
     width: 100% !important;
     max-width: 100% !important;
+    margin: 0 auto !important;
   }
+
 }
 
 
