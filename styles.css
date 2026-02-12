@@ -421,6 +421,24 @@ body {
   background: #333;
 }
 
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.ig-item {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+}
+
+.ig-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
 
 /* Process */
 
