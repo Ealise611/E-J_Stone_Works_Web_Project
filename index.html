@@ -277,28 +277,72 @@
       <!-- Contact Section -->
       <section id="contact" class="contact">
         <div class="container">
-          <div class="contact-text">
-            <h2>Need a quote?</h2>
-            <p>
-              Have a project in mind? Send us a message on Instagram or give us a call!
-              We will get back to you soon!
-            </p>
-
-            <div class="contact-details">
-              <p><strong>Phone:</strong> 0451 300 255</p>
-              <p><strong>Email:</strong> sales.ejkitchen@gmail.com</p>
-              <p><strong>Location:</strong> Melbourne, VIC</p>
+          <div class="contact-grid">
+            <div class="contact-text">
+              <h2>Need a quote?</h2>
               <p>
-                <strong>Instagram:</strong>
-                <a
-                  href="https://www.instagram.com/ejstoneworks.melbourne/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  @ejstoneworks.melbourne
-                </a>
+                Have a project in mind? Fill in the enquiry form and we will get back to you soon.
               </p>
+
+              <div class="contact-details">
+                <p><strong>Phone:</strong> 0451 300 255</p>
+                <p><strong>Email:</strong> sales.ejkitchen@gmail.com</p>
+                <p><strong>Location:</strong> Melbourne, VIC</p>
+                <p>
+                  <strong>Instagram:</strong>
+                  <a
+                    href="https://www.instagram.com/ejstoneworks.melbourne/"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    @ejstoneworks.melbourne
+                  </a>
+                </p>
+              </div>
             </div>
+
+            <form id="enquiry-form" class="contact-form" novalidate>
+              <div class="form-row">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required />
+              </div>
+
+              <div class="form-row">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+              </div>
+
+              <div class="form-row">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+
+              <div class="form-row">
+                <label for="postcode">Suburb / Postcode</label>
+                <input id="postcode" name="postcode" type="text" required />
+              </div>
+
+              <div class="form-row">
+                <label for="serviceType">Service Needed</label>
+                <select id="serviceType" name="serviceType" required>
+                  <option value="">Please select</option>
+                  <option>Kitchen Benchtops</option>
+                  <option>Bathroom Vanity Tops</option>
+                  <option>Feature / Fireplace Stone</option>
+                  <option>Outdoor BBQ Tables</option>
+                  <option>Stone Polishing</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label for="message">Project Details</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+              </div>
+
+              <button type="submit" class="btn primary full-width">Send Enquiry</button>
+              <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
           </div>
         </div>
       </section>
@@ -326,6 +370,45 @@
 
       <script>
         document.getElementById("year").textContent = new Date().getFullYear();
+
+        const form = document.getElementById("enquiry-form");
+        const formStatus = document.getElementById("form-status");
+        const endpoint = "/api/enquiries";
+
+        form?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          if (!form.checkValidity()) {
+            formStatus.textContent = "Please complete all required fields.";
+            formStatus.className = "form-status error";
+            return;
+          }
+
+          const formData = new FormData(form);
+          const payload = Object.fromEntries(formData.entries());
+
+          formStatus.textContent = "Sending your enquiry...";
+          formStatus.className = "form-status";
+
+          try {
+            const response = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+              throw new Error("Request failed");
+            }
+
+            formStatus.textContent = "Thanks! Your enquiry has been sent.";
+            formStatus.className = "form-status success";
+            form.reset();
+          } catch (error) {
+            formStatus.textContent = "Unable to send right now. Please call us on 0451 300 255.";
+            formStatus.className = "form-status error";
+          }
+        });
       </script>
     </footer>
   </body>

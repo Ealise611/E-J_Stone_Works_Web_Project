@@ -574,6 +574,7 @@ body {
 }
 
 .form-row input,
+.form-row select,
 .form-row textarea {
   border-radius: 10px;
   border: 1px solid var(--border-subtle);
@@ -584,9 +585,24 @@ body {
 }
 
 .form-row input:focus,
+.form-row select:focus,
 .form-row textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px rgba(195, 139, 90, 0.15);
+}
+
+.form-status {
+  margin: 0.8rem 0 0;
+  font-size: 0.85rem;
+  min-height: 1.4em;
+}
+
+.form-status.success {
+  color: #166534;
+}
+
+.form-status.error {
+  color: #991b1b;
 }
 
 /* Footer */
