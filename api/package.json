@@ -1,0 +1,10 @@
+{
+  "name": "ej-stone-enquiry-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "enquiries/index.js",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "mssql": "^11.0.1"
+  }
+}

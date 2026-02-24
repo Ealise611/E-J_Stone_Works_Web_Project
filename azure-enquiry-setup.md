@@ -1,20 +1,28 @@
 # Azure enquiry form backend setup
 
-This website now posts enquiry data to `POST /api/enquiries` from the contact form.
-Use the following Azure setup to capture the data.
+The website form submits JSON to `POST /api/enquiries`.
+This repository now includes an Azure Function implementation under `api/enquiries` that stores submissions in Azure SQL.
+
+## What is already implemented in this repo
+
+- Frontend form + submit logic in `index.html`.
+- Azure Function endpoint in `api/enquiries/index.js`.
+- Azure Function bindings in `api/enquiries/function.json`.
+- Function app config files in `api/host.json` and `api/package.json`.
+- Local env template in `api/local.settings.example.json`.
 
 ## 1) Create Azure SQL Database
 
-1. In Azure Portal, create a **Resource Group** (or reuse existing).
-2. Create **Azure SQL Server** (new logical server) with SQL authentication.
-3. Create **Azure SQL Database** (Basic tier is enough to start).
+1. In Azure Portal, create/use a **Resource Group**.
+2. Create **Azure SQL Server**.
+3. Create **Azure SQL Database**.
 4. In SQL server networking:
    - Allow Azure services and resources to access this server.
-   - Add your current public IP temporarily for local testing.
+   - Add your public IP for setup/testing.
 
-## 2) Create table for enquiries
+## 2) Create `dbo.Enquiries` table
 
-Run this SQL in Query Editor:
+Run this SQL:
 
 ```sql
 CREATE TABLE dbo.Enquiries (
@@ -29,44 +37,50 @@ CREATE TABLE dbo.Enquiries (
 );
 ```
 
-## 3) Deploy an API endpoint
+## 3) Configure function environment variables
 
-Because this site is static HTML, you need a small backend API.
-Recommended options:
-
-- **Azure Functions (HTTP trigger)**
-- **Azure App Service (Node.js/Express)**
-
-The API must implement:
-
-- `POST /api/enquiries`
-- Validate required fields.
-- Insert one row into `dbo.Enquiries`.
-- Return `200` or `201` JSON response.
-
-## 4) Configure secure connection
-
-Use environment variables (never hardcode secrets):
+In your Function App > **Configuration**, add:
 
 - `AZURE_SQL_SERVER`
 - `AZURE_SQL_DATABASE`
 - `AZURE_SQL_USER`
 - `AZURE_SQL_PASSWORD`
+- `CORS_ALLOWED_ORIGIN` (for example `https://www.ejstoneworks.com.au`)
 
-If using Azure Functions/App Service, store these in **Configuration** settings.
+## 4) Deploy the function app
 
-## 5) Connect frontend to production API
+From the `api` folder:
 
-In `index.html`, change `endpoint` from local path to your deployed URL if needed:
-
-```js
-const endpoint = "https://<your-api-host>/api/enquiries";
+```bash
+npm install
 ```
 
-If your website and API are on different domains, enable CORS on the API for your website origin.
+Then deploy with your preferred method:
 
-## 6) Optional hardening
+- VS Code Azure Functions extension, or
+- Azure CLI + zip deploy.
 
-- Add CAPTCHA (Cloudflare Turnstile or reCAPTCHA) to block spam.
-- Add rate limiting in API.
-- Add email notifications (SendGrid / Logic Apps) after insert.
+The route exposed by this function is:
+
+- `POST https://<function-app>.azurewebsites.net/api/enquiries`
+
+## 5) Wire frontend to deployed API
+
+If your site and function are different origins, set the endpoint in `index.html` to the full function URL:
+
+```js
+const endpoint = "https://<function-app>.azurewebsites.net/api/enquiries";
+```
+
+If your static site is hosted on Azure Static Web Apps with linked API, `/api/enquiries` can stay as-is.
+
+## 6) Verify
+
+1. Submit the form from the site.
+2. Run:
+
+```sql
+SELECT TOP 20 * FROM dbo.Enquiries ORDER BY CreatedUtc DESC;
+```
+
+If rows appear, customer data is being captured in Azure SQL.

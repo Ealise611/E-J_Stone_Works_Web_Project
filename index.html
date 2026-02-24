@@ -373,7 +373,7 @@
 
         const form = document.getElementById("enquiry-form");
         const formStatus = document.getElementById("form-status");
-        const endpoint = "/api/enquiries";
+        const endpoint = window.ENQUIRY_API_ENDPOINT || "/api/enquiries";
 
         form?.addEventListener("submit", async (event) => {
           event.preventDefault();
