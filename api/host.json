@@ -1,12 +1,10 @@
 {
   "version": "2.0",
-  "extensions": {
-    "http": {
-      "routePrefix": "api"
+  "logging": {
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true
+      }
     }
-  },
-  "cors": {
-    "allowedOrigins": ["*"],
-    "supportCredentials": false
   }
 }
