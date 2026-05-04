@@ -8,3 +8,15 @@ __queuestorage__
 local.settings.json
 test
 tsconfig.json
+node_modules
+*.html
+*.css
+*.png
+Gallery
+images
+gallery.html
+index.html
+styles.css
+terms.html
+robots.txt
+favicon-48.png
