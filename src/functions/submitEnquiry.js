@@ -36,3 +36,25 @@ app.http('submitEnquiry', {
                 id: Date.now().toString(),
                 name, phone, email, service,
                 message: message || '',
+                submittedAt: new Date().toISOString()
+            };
+
+            await container.items.create(enquiry);
+            context.log('Enquiry saved:', name, service);
+
+            return {
+                status: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({ success: true })
+            };
+
+        } catch (err) {
+            context.log('Error:', err);
+            return {
+                status: 500,
+                headers: corsHeaders,
+                body: JSON.stringify({ error: 'Server error' })
+            };
+        }
+    }
+});
