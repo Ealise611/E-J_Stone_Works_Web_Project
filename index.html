@@ -328,7 +328,11 @@
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" placeholder="your@email.com" required />
                 </div>
-
+                <div class="form-row-2">
+                <div class="form-field">
+                <label for="suburb">Suburb *</label>
+                <input type="text" id="suburb" name="suburb" placeholder="e.g. Doncaster" required />
+                </div>
                 <div class="form-field">
                 <label for="service">Service type *</label>
                 <select id="service" name="service" required>
@@ -343,6 +347,7 @@
                     <option>Stone replacement</option>
                     <option>Other</option>
                 </select>
+                </div>
                 </div>
 
                 <div class="form-field">
@@ -403,9 +408,10 @@
             const email = document.getElementById("email").value.trim();
             const service = document.getElementById("service").value;
             const message = document.getElementById("message").value.trim();
+            const suburb = document.getElementById("suburb").value.trim();
             const terms = document.getElementById("terms").checked;
 
-            if (!name || !phone || !email || !service) {
+            if (!name || !phone || !email || !subrb || !service) {
             alert("Please fill in all required fields.");
             return;
             }
@@ -424,6 +430,7 @@
             formData.append("email", email);
             formData.append("service", service);
             formData.append("message", message);
+            formData.append("suburb", suburb);
 
             try {
             const res = await fetch("https://formspree.io/f/mzdoergg", {
